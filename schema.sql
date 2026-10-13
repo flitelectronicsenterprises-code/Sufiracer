@@ -1,0 +1,12 @@
+create table profiles(id uuid primary key references auth.users on delete cascade, username text unique not null);
+create table friends(user_id uuid references profiles(id) on delete cascade, other_id uuid references profiles(id) on delete cascade, status text check(status in('pending','accepted','blocked')), primary key(user_id,other_id));
+create table events(id bigserial primary key, user_id uuid, name text, props jsonb, at timestamptz default now());
+create function new_user() returns trigger language plpgsql security definer as $$ begin insert into profiles values(new.id, coalesce(new.raw_user_meta_data->>'username', split_part(new.email,'@',1))); return new; end $$;
+create trigger on_signup after insert on auth.users for each row execute function new_user();
+alter table profiles enable row level security; alter table friends enable row level security; alter table events enable row level security;
+create policy "read profiles" on profiles for select using (true);
+create policy "own friends" on friends for select using (auth.uid() in (user_id,other_id));
+create policy "send" on friends for insert with check (auth.uid()=user_id);
+create policy "accept" on friends for update using (auth.uid()=other_id);
+create policy "remove" on friends for delete using (auth.uid() in (user_id,other_id));
+create policy "log events" on events for insert with check (true);
