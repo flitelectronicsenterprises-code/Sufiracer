@@ -1,1 +1,1 @@
-const SUPA_URL='https://YOUR-PROJECT.supabase.co',SUPA_KEY='YOUR-ANON-KEY';
+const SUPA_URL='https://sxrnghrislpawtfqajiw.supabase.co/rest/v1/',SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4cm5naHJpc2xwYXd0ZnFhaml3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NDc3NTksImV4cCI6MjEwNjQyMzc1OX0.HFxexKmf_jZqfTAxDxOhs2m49tTZ8hUz7lfGKHPKTsw';
